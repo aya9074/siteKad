@@ -1,1 +1,109 @@
+{% extends "admin/base_admin.html" %}
 
+{% block title %}{{ 'Редактирование' if page else 'Создание' }} страницы{% endblock %}
+
+{% block extra_css %}
+<!-- Подключаем редактор текста (TinyMCE) -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#content',
+        height: 400,
+        menubar: true,
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        language: 'ru'
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+    <h1>{{ 'Редактирование' if page else 'Создание' }} страницы</h1>
+    <a href="{{ url_for('admin_pages') }}" class="btn btn-secondary">← Назад к списку</a>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="admin-form">
+    <div class="form-group">
+        <label for="title">Название страницы *</label>
+        <input type="text" id="title" name="title" value="{{ page.title if page else '' }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="slug">URL-адрес (slug) *</label>
+        <input type="text" id="slug" name="slug" value="{{ page.slug if page else '' }}" required>
+        <small>Только латиница, цифры и дефис. Например: <code>o-kompanii</code></small>
+    </div>
+
+    <div class="form-group">
+        <label for="content">Содержание</label>
+        <textarea id="content" name="content">{{ page.content if page else '' }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="has_photo" id="has_photo" 
+                   {% if page and page.has_photo %}checked{% endif %}>
+            Добавить фото
+        </label>
+    </div>
+
+    <div class="form-group photo-upload" style="display: {% if page and page.has_photo %}block{% else %}none{% endif %};">
+        <label for="photo">Загрузить фото</label>
+        <input type="file" id="photo" name="photo" accept="image/*">
+        
+        {% if page and page.photo_path %}
+        <div class="current-photo">
+            <p>Текущее фото:</p>
+            <img src="{{ url_for('static', filename=page.photo_path) }}" alt="{{ page.title }}" style="max-width: 200px;">
+            <a href="{{ url_for('admin_page_delete_photo', id=page.id) }}" class="btn btn-sm btn-danger" 
+               onclick="return confirm('Удалить фото?')">Удалить фото</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="has_map" id="has_map" 
+                   {% if page and page.has_map %}checked{% endif %}>
+            Добавить карту Яндекс
+        </label>
+    </div>
+
+    <div class="form-group map-settings" style="display: {% if page and page.has_map %}block{% else %}none{% endif %};">
+        <label for="map_coords">Координаты (широта,долгота)</label>
+        <input type="text" id="map_coords" name="map_coords" 
+               value="{{ page.map_coords if page else '' }}" 
+               placeholder="Например: 52.721178, 41.455639">
+        <small>Получить координаты можно на Яндекс.Картах (правой кнопкой → Что здесь?)</small>
+        
+        <label for="map_zoom">Приближение (zoom)</label>
+        <input type="number" id="map_zoom" name="map_zoom" 
+               value="{{ page.map_zoom if page else 15 }}" min="1" max="20">
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="is_published" {% if not page or page.is_published %}checked{% endif %}>
+            Опубликовать
+        </label>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">💾 Сохранить</button>
+        <a href="{{ url_for('admin_pages') }}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+<script>
+    // Показываем/скрываем поле загрузки фото
+    document.getElementById('has_photo').addEventListener('change', function() {
+        document.querySelector('.photo-upload').style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Показываем/скрываем настройки карты
+    document.getElementById('has_map').addEventListener('change', function() {
+        document.querySelector('.map-settings').style.display = this.checked ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

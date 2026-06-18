@@ -1,1 +1,134 @@
+/* ========================================
+   ПЛАНШЕТЫ (до 992px)
+   ======================================== */
+@media (max-width: 992px) {
+    .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+    
+    .page-content {
+        padding: 30px;
+    }
+}
 
+/* ========================================
+   МОБИЛКИ (до 768px)
+   ======================================== */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 60px;
+        --sidebar-width: 280px;
+    }
+    
+    .site-title {
+        font-size: 1.1rem;
+    }
+    
+    .menu-toggle {
+        width: 26px;
+        height: 18px;
+    }
+    
+    .menu-toggle span {
+        height: 2.5px;
+    }
+    
+    .main-content {
+        padding: 20px 15px;
+        margin-top: var(--header-height);
+    }
+    
+    .page-content {
+        padding: 20px;
+        border-radius: 8px;
+    }
+    
+    .page-content h1 {
+        font-size: 1.6rem;
+    }
+    
+    .page-content .page-text {
+        font-size: 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    /* Футер на мобилке */
+    .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .footer {
+        padding: 30px 15px 15px;
+    }
+    
+    .footer-social {
+        justify-content: center;
+    }
+    
+    /* Боковая панель на мобилке */
+    .sidebar-close {
+        display: block;
+        margin-bottom: 15px;
+    }
+    
+    .sidebar {
+        padding: 15px 0;
+    }
+    
+    .sidebar-inner {
+        padding: 0 15px;
+    }
+    
+    .sidebar-menu a {
+        padding: 12px 15px;
+        font-size: 1.05rem;
+    }
+    
+    .sidebar-menu .submenu a {
+        font-size: 0.95rem;
+        padding: 10px 15px;
+    }
+}
+
+/* ========================================
+   МАЛЕНЬКИЕ МОБИЛКИ (до 480px)
+   ======================================== */
+@media (max-width: 480px) {
+    .site-title {
+        font-size: 0.95rem;
+    }
+    
+    .page-content {
+        padding: 15px;
+    }
+    
+    .page-content h1 {
+        font-size: 1.3rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .footer-inner {
+        gap: 20px;
+    }
+    
+    .footer-social a {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

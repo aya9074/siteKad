@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Админ-панель{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Верхняя навигация -->
+    <nav class="admin-nav">
+        <div class="admin-nav-inner">
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-brand">
+                Админ-панель
+            </a>
+            <div class="admin-nav-links">
+                <span>{{ current_user.username }}</span>
+                <a href="{{ url_for('admin_logout') }}">Выйти</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Основной контейнер -->
+    <div class="admin-container">
+        <!-- Боковая панель админки -->
+        <aside class="admin-sidebar">
+            <ul>
+                <li><a href="{{ url_for('admin_pages') }}">📄 Страницы</a></li>
+                <li><a href="{{ url_for('admin_menu') }}">📋 Меню</a></li>
+                <li><a href="{{ url_for('admin_settings') }}">⚙️ Настройки</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Контент -->
+        <main class="admin-main">
+            <!-- Flash-сообщения -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Блок с содержимым -->
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_name or 'Абсолют Кадастр' }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Верхняя плашка -->
+    <header class="header">
+        <div class="header-inner">
+            <button class="menu-toggle" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="site-title">
+                <a href="/">{{ site_name or 'Абсолют Кадастр' }}</a>
+            </div>
+        </div>
+    </header>
 
+    <!-- Боковая панель -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+            <button class="sidebar-close" aria-label="Закрыть меню">✕</button>
+            <ul class="sidebar-menu">
+                <li><a href="/">Главная</a></li>
+                <!-- Динамическое меню будет здесь -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Нижняя плашка (футер) -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-contacts">
+                <p>📞 {{ contact_phone or '+7 (4752) XX-XX-XX' }}</p>
+                <p>✉️ {{ contact_email or 'info@absolut-kadastr.ru' }}</p>
+                <p>📍 {{ contact_address or 'г. Тамбов, ул. Примерная, д. 1' }}</p>
+            </div>
+            <div class="footer-social">
+                <a href="{{ social_vk or '#' }}">VK</a>
+                <a href="{{ social_telegram or '#' }}">Telegram</a>
+                <a href="{{ social_whatsapp or '#' }}">WhatsApp</a>
+            </div>
+            <div class="footer-accreditation">
+                <p>{{ accreditation_text or 'Лицензия № XX-XX-XX-XX' }}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 {{ site_name or 'Абсолют Кадастр' }}</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
